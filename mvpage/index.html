@@ -174,6 +174,17 @@
       opacity: 0.4;
     }
 
+    .greeting {
+  text-decoration: none;
+  color: inherit;
+  opacity: inherit;
+  transition: 0.3s ease;
+}
+
+.greeting:hover {
+  opacity: 1;
+}
+
     @media (max-width: 600px) {
       section.hero h1 {
         font-size: 2rem;
@@ -186,9 +197,9 @@
   <div class="cursor"></div>
 
   <header>
-    <div>Ваше Имя</div>
-    <div>👋 Привет!</div>
-  </header>
+  <div>Ваше Имя</div>
+  <div><a href="https://rukomrus.github.io/sbox/folio/"  target="_blank" rel="noopener noreferrer" class="greeting">👋 Привет!</a></div>
+</header>
 
   <section class="hero">
     <h1>
