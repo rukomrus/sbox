@@ -253,11 +253,29 @@
 
   <!-- JS для курсора -->
   <script>
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
-  </script>
+  const cursor = document.querySelector('.cursor');
+  const helloLink = document.getElementById('hello-link');
+
+  // Обычный курсор
+  const defaultSize = 20;
+
+  // Размер при наведении
+  const hoverSize = 48;
+
+  // Слежка за мышью
+  document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+
+  // Увеличиваем курсор при наведении на ссылку
+  helloLink.addEventListener('mouseenter', () => {
+    cursor.classList.add('hover-effect');
+  });
+
+  helloLink.addEventListener('mouseleave', () => {
+    cursor.classList.remove('hover-effect');
+  });
+</script>
 
   <!-- JS для анимации круга с открытием и закрытием -->
   <script>
