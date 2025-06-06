@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ваше Имя</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: none;
+    }
+
+    body {
+      background-color: #0f0f0f;    
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem;
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    section.hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    section.hero h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    section.hero p {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      max-width: 600px;
+      opacity: 0.6;
+    }
+
+    /* === НОВАЯ СЕКЦИЯ ABOUT С АНИМАЦИЕЙ КРУГА === */
+    .about {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 4rem 2rem;
+      background-color: #0f0f0f;
+    }
+
+    .circle-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: white;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0.9;
+      transition: width 1s ease, height 1s ease, transform 1s ease, opacity 0.3s ease;
+    }
+
+    .circle-overlay.expand {
+      width: 120vw;
+      height: 120vw;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .about-content {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      color: #0f0f0f;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+    }
+
+    .about-content.show {
+      opacity: 1;
+    }
+    /* === КОНЕЦ АНИМАЦИИ === */
+
+    section.projects {
+      padding: 6rem 2rem;
+      background: #111;
+    }
+
+    section.projects h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: #1a1a1a;
+      padding: 1.5rem;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+
+    .project-card:hover {
+      background: #222;
+    }
+
+    section.contact {
+      padding: 6rem 2rem;
+      text-align: center;
+    }
+
+    section.contact h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .socials a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: white;
+      opacity: 0.6;
+      transition: 0.3s;
+    }
+
+    .socials a:hover {
+      opacity: 1;
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.4;
+    }
+
+    @media (max-width: 600px) {
+      section.hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor"></div>
+
+  <header>
+    <div>Ваше Имя</div>
+    <div>👋 Привет!</div>
+  </header>
+
+  <section class="hero">
+    <h1>
+      Я —<br/>
+      Ваше Имя<br/>
+      & создаю<br/>
+      невозможное
+    </h1>
+    <p>Все ваши мечты могут стать реальностью.</p>
+  </section>
+
+  <!-- Новая секция "Про меня" с анимацией -->
+  <section class="about">
+    <div class="circle-overlay"></div>
+    <div class="about-content">
+      <h2>Я беру ваш бизнес<br/>на новый уровень</h2>
+      <p>Все ваши мечты могут стать реальностью. Вместе мы создадим невозможное.</p>
+    </div>
+  </section>
+
+  <section class="projects">
+    <h2>Мои проекты</h2>
+    <div class="project-list">
+      <div class="project-card">
+        <h3>Проект 1</h3>
+        <p>Краткое описание проекта. О чём он? Какой результат?</p>
+      </div>
+      <div class="project-card">
+        <h3>Проект 2</h3>
+        <p>Ещё один интересный проект с уникальной идеей и решением.</p>
+      </div>
+      <div class="project-card">
+        <h3>Проект 3</h3>
+        <p>Описание третьего проекта, возможно, из портфолио или блога.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Свяжитесь со мной 🤙</h2>
+    <div class="socials">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Email</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Ваше Имя. Все права защищены.
+  </footer>
+
+  <!-- JS для курсора -->
+  <script>
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    });
+  </script>
+
+  <!-- JS для анимации круга с открытием и закрытием -->
+  <script>
+    const circle = document.querySelector('.circle-overlay');
+    const aboutContent = document.querySelector('.about-content');
+    const aboutSection = document.querySelector('.about');
+
+    let isExpanded = false;
+
+    function checkScroll() {
+      const rect = aboutSection.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+      if (inView && !isExpanded) {
+        // Раскрываем круг
+        circle.classList.add('expand');
+        aboutContent.classList.add('show');
+        isExpanded = true;
+      } else if (!inView && isExpanded && window.scrollY > aboutSection.offsetTop) {
+        // Сворачиваем круг, если пользователь ушёл вниз
+        circle.classList.remove('expand');
+        aboutContent.classList.remove('show');
+        isExpanded = false;
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
+  </script>
+
+</body>
+</html>
