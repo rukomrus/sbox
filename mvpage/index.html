@@ -33,19 +33,19 @@
       opacity: 0.6;
     }
 
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: difference;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s ease-out;
+  .cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease;
     }
 
     section.hero {
@@ -71,7 +71,7 @@
       opacity: 0.6;
     }
 
-    /* === НОВАЯ СЕКЦИЯ ABOUT С ДИНАМИЧНЫМ КРУГОМ === */
+    /* === НОВАЯ СЕКЦИЯ ABOUT С АНИМАЦИЕЙ КРУГА === */
     .about {
       position: relative;
       min-height: 100vh;
@@ -95,21 +95,23 @@
       z-index: 10;
       pointer-events: none;
       opacity: 0.9;
-      will-change: width, height, transform;
-      transition: all 0.3s ease;
+      transition: width 1s ease, height 1s ease, transform 1s ease, opacity 0.3s ease;
+    }
+
+    .circle-overlay.expand {
+      width: 120vw;
+      height: 120vw;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     .about-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: relative;
+      z-index: 20;
       text-align: center;
       color: #0f0f0f;
       opacity: 0;
-      z-index: 20;
+      transition: opacity 0.6s ease;
       pointer-events: none;
-      transition: opacity 0.4s ease;
     }
 
     .about-content.show {
@@ -173,6 +175,23 @@
       opacity: 0.4;
     }
 
+  .greeting {
+  text-decoration: none;
+  color: inherit;
+  opacity: inherit;
+  transition: 0.3s ease;
+  position: relative;
+  z-index: 1000;
+}
+
+/* Анимация курсора */
+ .cursor.hover-effect {
+  width: 60px;
+  height: 60px;
+  background: white;
+  opacity: 0.8;
+}
+
     @media (max-width: 600px) {
       section.hero h1 {
         font-size: 2rem;
@@ -185,13 +204,13 @@
   <div class="cursor"></div>
 
   <header>
-    <div>Ваше Имя</div>
-    <div>
-      <a href="https://rukomrus.github.io/sbox/folio/"  target="_blank" rel="noopener noreferrer" id="hello-link">
-        👋 Привет!
-      </a>
-    </div>
-  </header>
+  <div>Ваше Имя</div>
+  <div>
+    <a href="https://rukomrus.github.io/sbox/folio/"  target="_blank" rel="noopener noreferrer" class="greeting" id="hello-link">
+      👋 Привет!
+    </a>
+  </div>
+</header>
 
   <section class="hero">
     <h1>
@@ -203,10 +222,10 @@
     <p>Все ваши мечты могут стать реальностью.</p>
   </section>
 
-  <!-- Новая секция "Про меня" с динамическим кругом -->
-  <section class="about" id="aboutSection">
-    <div class="circle-overlay" id="circleOverlay"></div>
-    <div class="about-content" id="aboutContent">
+  <!-- Новая секция "Про меня" с анимацией -->
+  <section class="about">
+    <div class="circle-overlay"></div>
+    <div class="about-content">
       <h2>Я беру ваш бизнес<br/>на новый уровень</h2>
       <p>Все ваши мечты могут стать реальностью. Вместе мы создадим невозможное.</p>
     </div>
@@ -245,67 +264,73 @@
 
   <!-- JS для курсора -->
   <script>
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    });
-  </script>
+  const cursor = document.querySelector('.cursor');
+  const helloLink = document.getElementById('hello-link');
 
-  <!-- JS для динамического круга -->
+  const defaultSize = 20;
+  const hoverSize = 60;
+
+  let isHovering = false;
+
+  // Движение мыши — обычное поведение
+  document.addEventListener('mousemove', e => {
+    if (!isHovering) {
+      moveCursor(e.clientX, e.clientY);
+    }
+  });
+
+  function moveCursor(x, y) {
+    cursor.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  // При наведении на ссылку — центрируем курсор и увеличиваем
+  helloLink.addEventListener('mouseenter', () => {
+    isHovering = true;
+
+    const rect = helloLink.getBoundingClientRect();
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    // Смещаем курсор так, чтобы он был по центру текста
+    cursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
+    cursor.classList.add('hover-effect');
+  });
+
+  // При уходе — возвращаем обычный режим
+  helloLink.addEventListener('mouseleave', () => {
+    isHovering = false;
+    cursor.classList.remove('hover-effect');
+  });
+</script>
+
+  <!-- JS для анимации круга с открытием и закрытием -->
   <script>
-    const circle = document.getElementById('circleOverlay');
-    const aboutContent = document.getElementById('aboutContent');
-    const aboutSection = document.getElementById('aboutSection');
+    const circle = document.querySelector('.circle-overlay');
+    const aboutContent = document.querySelector('.about-content');
+    const aboutSection = document.querySelector('.about');
 
-    let lastScrollY = window.scrollY;
-    let currentScale = 0;
-    let targetScale = 0;
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+    let isExpanded = false;
 
-    // Позиционирование круга под мышкой внутри секции
-    aboutSection.addEventListener('mousemove', (e) => {
+    function checkScroll() {
       const rect = aboutSection.getBoundingClientRect();
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+      const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
 
-    function animateCircle() {
-      const rect = aboutSection.getBoundingClientRect();
-      const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-
-      if (isInView) {
-        // Показываем текст при увеличении
-        if (targetScale > 0.2) aboutContent.classList.add('show');
-        else aboutContent.classList.remove('show');
-
-        // Логика масштабирования круга от скролла
-        const scrollDelta = window.scrollY - lastScrollY;
-        const speedFactor = 0.005;
-
-        targetScale += scrollDelta * speedFactor;
-        targetScale = Math.max(0, Math.min(1.2, targetScale)); // ограничиваем диапазон
-
-        currentScale += (targetScale - currentScale) * 0.1;
-
-        const diameter = window.innerWidth * 0.6 + window.innerWidth * 0.4 * currentScale;
-
-        circle.style.width = `${diameter}px`;
-        circle.style.height = `${diameter}px`;
-        circle.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-
-        lastScrollY = window.scrollY;
-      } else {
-        // Если вышли из секции — убираем всё
+      if (inView && !isExpanded) {
+        // Раскрываем круг
+        circle.classList.add('expand');
+        aboutContent.classList.add('show');
+        isExpanded = true;
+      } else if (!inView && isExpanded && window.scrollY > aboutSection.offsetTop) {
+        // Сворачиваем круг, если пользователь ушёл вниз
+        circle.classList.remove('expand');
         aboutContent.classList.remove('show');
-        circle.style.width = '0';
-        circle.style.height = '0';
+        isExpanded = false;
       }
-
-      requestAnimationFrame(animateCircle);
     }
 
-    requestAnimationFrame(animateCircle);
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
   </script>
 
 </body>
