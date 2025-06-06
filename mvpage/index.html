@@ -33,20 +33,20 @@
       opacity: 0.6;
     }
 
-  .cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: difference;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s ease-out;
+    }
 
     section.hero {
       min-height: 100vh;
@@ -175,23 +175,6 @@
       opacity: 0.4;
     }
 
-  .greeting {
-  text-decoration: none;
-  color: inherit;
-  opacity: inherit;
-  transition: 0.3s ease;
-  position: relative;
-  z-index: 1000;
-}
-
-/* Анимация курсора */
- .cursor.hover-effect {
-  width: 60px;
-  height: 60px;
-  background: white;
-  opacity: 0.8;
-}
-
     @media (max-width: 600px) {
       section.hero h1 {
         font-size: 2rem;
@@ -204,13 +187,13 @@
   <div class="cursor"></div>
 
   <header>
-  <div>Ваше Имя</div>
-  <div>
-    <a href="https://rukomrus.github.io/sbox/folio/"  target="_blank" rel="noopener noreferrer" class="greeting" id="hello-link">
-      👋 Привет!
-    </a>
-  </div>
-</header>
+    <div>Ваше Имя</div>
+    <div>
+      <a href="https://rukomrus.github.io/sbox/folio/"  target="_blank" rel="noopener noreferrer" class="greeting" id="hello-link">
+        👋 Привет!
+      </a>
+    </div>
+  </header>
 
   <section class="hero">
     <h1>
@@ -264,38 +247,11 @@
 
   <!-- JS для курсора -->
   <script>
-  const cursor = document.querySelector('.cursor');
-  const helloLink = document.getElementById('hello-link');
-
-  let isHovering = false;
-
-  // Движение обычного курсора
-  document.addEventListener('mousemove', e => {
-    if (!isHovering) {
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
       cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-    }
-  });
-
-  // При наведении на ссылку
-  helloLink.addEventListener('mouseenter', () => {
-    isHovering = true;
-
-    const rect = helloLink.getBoundingClientRect();
-
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    cursor.classList.add('hover-effect');
-    cursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
-    helloLink.style.cursor = 'pointer'; // добавляем системный курсор "рука"
-  });
-
-  helloLink.addEventListener('mouseleave', () => {
-    isHovering = false;
-    cursor.classList.remove('hover-effect');
-    helloLink.style.cursor = 'default';
-  });
-</script>
+    });
+  </script>
 
   <!-- JS для анимации круга с открытием и закрытием -->
   <script>
