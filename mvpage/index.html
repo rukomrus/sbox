@@ -33,18 +33,19 @@
       opacity: 0.6;
     }
 
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: difference;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
+  .cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease;
     }
 
     section.hero {
@@ -185,11 +186,10 @@
 
 /* Анимация курсора */
  .cursor.hover-effect {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   background: white;
-  opacity: 0.7;
-  border-radius: 50%;
+  opacity: 0.8;
 }
 
     @media (max-width: 600px) {
@@ -268,18 +268,22 @@
   const helloLink = document.getElementById('hello-link');
 
   const defaultSize = 20;
-  const hoverSize = 60; // Можно сделать больше для полного охвата текста
+  const hoverSize = 60;
 
   let isHovering = false;
 
-  // Слежка за мышью
+  // Движение мыши — обычное поведение
   document.addEventListener('mousemove', e => {
     if (!isHovering) {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      moveCursor(e.clientX, e.clientY);
     }
   });
 
-  // Наведение на ссылку
+  function moveCursor(x, y) {
+    cursor.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  // При наведении на ссылку — центрируем курсор и увеличиваем
   helloLink.addEventListener('mouseenter', () => {
     isHovering = true;
 
@@ -288,21 +292,15 @@
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
+    // Смещаем курсор так, чтобы он был по центру текста
     cursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
     cursor.classList.add('hover-effect');
   });
 
+  // При уходе — возвращаем обычный режим
   helloLink.addEventListener('mouseleave', () => {
     isHovering = false;
     cursor.classList.remove('hover-effect');
-
-    // Возвращаем курсор под настоящий указатель мыши
-    document.addEventListener('mousemove', onMoveOnce);
-
-    function onMoveOnce(e) {
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      document.removeEventListener('mousemove', onMoveOnce);
-    }
   });
 </script>
 
