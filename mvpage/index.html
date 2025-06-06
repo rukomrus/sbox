@@ -45,8 +45,8 @@
   mix-blend-mode: difference;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease;
-    }
+  transition: width 0.4s ease, height 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
 
     section.hero {
       min-height: 100vh;
@@ -267,23 +267,16 @@
   const cursor = document.querySelector('.cursor');
   const helloLink = document.getElementById('hello-link');
 
-  const defaultSize = 20;
-  const hoverSize = 60;
-
   let isHovering = false;
 
-  // Движение мыши — обычное поведение
+  // Движение обычного курсора
   document.addEventListener('mousemove', e => {
     if (!isHovering) {
-      moveCursor(e.clientX, e.clientY);
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     }
   });
 
-  function moveCursor(x, y) {
-    cursor.style.transform = `translate(${x}px, ${y}px)`;
-  }
-
-  // При наведении на ссылку — центрируем курсор и увеличиваем
+  // При наведении на ссылку
   helloLink.addEventListener('mouseenter', () => {
     isHovering = true;
 
@@ -292,15 +285,15 @@
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    // Смещаем курсор так, чтобы он был по центру текста
-    cursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
     cursor.classList.add('hover-effect');
+    cursor.style.transform = `translate(${centerX}px, ${centerY}px)`;
+    helloLink.style.cursor = 'pointer'; // добавляем системный курсор "рука"
   });
 
-  // При уходе — возвращаем обычный режим
   helloLink.addEventListener('mouseleave', () => {
     isHovering = false;
     cursor.classList.remove('hover-effect');
+    helloLink.style.cursor = 'default';
   });
 </script>
 
