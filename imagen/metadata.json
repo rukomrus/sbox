@@ -1,0 +1,5 @@
+
+{
+  "name": "Imagen AI Image Generator",
+  "description": "A web application that uses Google's Imagen model via the Gemini API to generate images from text prompts. Users can enter a descriptive prompt, and the application will display the AI-generated image."
+}
